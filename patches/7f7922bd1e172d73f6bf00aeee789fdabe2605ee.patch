@@ -1,0 +1,28 @@
+From 7f7922bd1e172d73f6bf00aeee789fdabe2605ee Mon Sep 17 00:00:00 2001
+From: me-cafebabe <me.cafebabe@gmail.com>
+Date: Wed, 13 Sep 2023 16:29:10 +0800
+Subject: [PATCH] partition: Wipe_F2FS: Only enable casefolding for /data
+
+* Reference: https://github.com/LineageOS/android_bootable_recovery/blob/e5c3f128ca728ae53c1f9606e79f85df817bdeee/recovery_utils/roots.cpp#L234
+
+Change-Id: Ia1f450cbd3b263b57f4a6a77e54835a5e09ca07f
+---
+ partition.cpp | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/partition.cpp b/partition.cpp
+index 040e3849..ee37349b 100755
+--- a/partition.cpp
++++ b/partition.cpp
+@@ -2507,7 +2507,10 @@ bool TWPartition::Wipe_F2FS() {
+ 		return false;
+ 	}
+ 
+-	needs_casefold = android::base::GetBoolProperty("external_storage.casefold.enabled", false);
++	if (Mount_Point == "/data") {
++		needs_casefold = android::base::GetBoolProperty("external_storage.casefold.enabled", false);
++	}
++
+ 	unsigned long long dev_sz = TWFunc::IOCTL_Get_Block_Size(Actual_Block_Device.c_str());
+ 	if (!dev_sz)
+ 		return false;

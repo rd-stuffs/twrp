@@ -15,7 +15,7 @@ on:
       DEVICE_TREE_URL:
         description: 'DEVICE_TREE_URL'
         required: true
-        default: 'https://github.com/brigudav/android_device_xiaomi_surya_twrp'
+        default: 'https://github.com/rd-stuffs/twrp'
       DEVICE_TREE_BRANCH:
         description: 'DEVICE_TREE_BRANCH'
         required: true
@@ -53,19 +53,10 @@ on:
         options:
         - yes
         - no
-      PUBLISH:
-        description: 'Publish to GitHub (true or false)'
-        required: true
-        default: 'yes'
-        type: choice
-        options:
-        - yes
-        - no
 
 jobs:
   build:
-    name: Build TWRP by ${{ github.actor }}
-    if: github.event.repository.owner.id == github.event.sender.id
+    name: Build TWRP
     runs-on: ubuntu-20.04
     permissions:
       contents: write
@@ -125,8 +116,8 @@ jobs:
         mkdir twrp
         cd twrp
         echo "wsdir=$(pwd)" >> $GITHUB_OUTPUT
-        git config --global user.name "brigudav"
-        git config --global user.email "alexvl1972@hotmail.com"
+        git config --global user.name "Richard Raya"
+        git config --global user.email "rdxzv.dev@gmail.com"
         repo init --depth=1 -u ${{ steps.manifest.outputs.value }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
       id: pwd
 
@@ -202,16 +193,3 @@ jobs:
         -F parse_mode=HTML \
         -F caption=" <b>- Build for <i>${{ github.event.inputs.DEVICE_NAME }}</i> completed.</b> " \
         -F document=@${{ steps.var.outputs.Outdir }}/${{ steps.zipname.outputs.name }}
-
-    - name: Publish to GitHub
-      if: github.event.inputs.PUBLISH == 'true'
-      uses: softprops/action-gh-release@v1
-      with:
-        files: ${{ steps.var.outputs.Outdir }}/${{ steps.zipname.outputs.name }}
-        name: Unofficial TWRP for ${{ github.event.inputs.DEVICE_NAME }} - Build ${{ steps.var.outputs.date }}
-        tag_name: ${{ github.run_id }}
-        body: |
-          Manifest: ${{ github.event.inputs.MANIFEST_BRANCH }}
-          Device: ${{ github.event.inputs.DEVICE_NAME }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.TEST }}

@@ -12,6 +12,9 @@ PRODUCT_PLATFORM := sm6150
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_base.mk)
 
+# Project ID Quota
+$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
+
 # Fastbootd
 TW_INCLUDE_FASTBOOTD := true
 
@@ -49,3 +52,14 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
 
 PRODUCT_PROPERTY_OVERRIDES += \
 	ro.product.device=$(PRODUCT_RELEASE_NAME)
+
+# Crypto
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.crypto.dm_default_key.options_format.version=2 \
+    ro.crypto.volume.metadata.method=dm-default-key \
+    ro.crypto.volume.filenames_mode=aes-256-cts \
+    ro.crypto.volume.options=::v2
+
+# FUSE
+PRODUCT_PRODUCT_PROPERTIES += \
+    persist.sys.fuse.passthrough.enable=true
