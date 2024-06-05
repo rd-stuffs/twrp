@@ -32,6 +32,11 @@ PRODUCT_SOONG_NAMESPACES += \
 # Dynamic partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
+PRODUCT_PACKAGES += \
+    e2fsck_ramdisk \
+    tune2fs_ramdisk \
+    resize2fs_ramdisk
+
 # Additional binaries & libraries needed for recovery
 TARGET_RECOVERY_DEVICE_MODULES += \
 	libion \
