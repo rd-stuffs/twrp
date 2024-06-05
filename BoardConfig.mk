@@ -141,6 +141,7 @@ TW_EXCLUDE_DEFAULT_USB_INIT := true
 #TW_EXTRA_LANGUAGES := true
 TW_INCLUDE_NTFS_3G := true
 TW_BRIGHTNESS_PATH := /sys/class/backlight/panel0-backlight/brightness
+TW_MAX_BRIGHTNESS := 255
 TW_Y_OFFSET := 91
 TW_H_OFFSET := -91
 TARGET_USES_MKE2FS := true
