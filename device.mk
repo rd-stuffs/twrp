@@ -68,3 +68,8 @@ PRODUCT_VENDOR_PROPERTIES += \
 # FUSE
 PRODUCT_PRODUCT_PROPERTIES += \
     persist.sys.fuse.passthrough.enable=true
+
+# Nano
+TWRP_REQUIRED_MODULES += \
+    nano_twrp \
+    nano.rc
